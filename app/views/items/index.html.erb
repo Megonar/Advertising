@@ -1,0 +1,10 @@
+<h1>All advertising</h1>
+
+<% @items.each do |item| %>
+<ul>
+    <li><%= link_to item.owner, item_path(item) %></li>
+    <li><%= item.name %></li>
+    <li><%= item.description %></li>
+    <li><%= button_to 'delete', item_path(item), method: :delete %></lu>
+</ul>
+<% end %>
