@@ -1,11 +1,15 @@
 <h2>Show advertising</h2>
 
-<h4><%= @item.owner %></h4>
+<h4>Owner: <%= @item.owner %></h4>
 
 <ul>
     <li>Name: <%= @item.name %> </li>
     <li>Description: <%= @item.description %> </li>
-</ul>
+</ul><br/>
+
+<%= button_to "edit #{@item.owner}", edit_item_path %> <br/>
+<%= button_to "delete #{@item.owner}", item_path(@item), method: :delete  %><br/>
+<%= button_to "index", items_path %>
 
 
 

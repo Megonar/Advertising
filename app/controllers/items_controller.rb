@@ -1,5 +1,7 @@
 class ItemsController < ApplicationController
 
+    before_action :find_item, only: %i[show edit update destroy]
+
     def index
         @items = Item.all
 
@@ -19,20 +21,15 @@ class ItemsController < ApplicationController
     end
 
     def show
-        unless (@item = Item.where(id: params[:id]).first)
-            render body: 'Page not found', status: 404
-        end
+        render body: 'Page not found', status: 404 unless @item
     end
 
     def edit
-        unless (@item = Item.where(id: params[:id]).first)
-            render body: 'Page not found', status: 404
-        end
+        render body: 'Page not found', status: 404 unless @item
     end
 
     def update
-        item = Item.where(id: params[:id]).update(items_params).first
-        if item.update(items_params)
+        if @item.update(items_params)
         redirect_to item_path
         else
             render json: item.errors, status: :unprocessable_entity
@@ -40,8 +37,7 @@ class ItemsController < ApplicationController
     end
 
     def destroy
-        item = Item.where(id: params[:id]).first.destroy
-        if item.destroyed?
+        if @item.destroy.destroyed?
             redirect_to items_path
         else
             render json: item.errors, status: :unprocessable_entity
@@ -52,5 +48,9 @@ class ItemsController < ApplicationController
 
     def items_params
         params.permit(:owner, :name, :description)
+    end
+
+    def find_item
+        @item = Item.where(id: params[:id]).first
     end
 end
